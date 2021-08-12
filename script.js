@@ -30,6 +30,7 @@ let appData = {
     budget: 0,
     asking: function(){
 
+        appData.budget = start();
         if (confirm('Есть ли у вас дополнительный источник заработка?')) {
             let cashIncome;
             let itemIncome;
@@ -42,7 +43,6 @@ let appData = {
         }
 
         appData.deposit = confirm('Есть ли у вас депозит в банке?');
-        appData.budget = start();
         let addExpenses;
         do {
             addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'бензин, квартплата, коммуналка');
@@ -51,8 +51,14 @@ let appData = {
         appData.addExpenses = addExpenses.toLowerCase().split(', ');
 
         for (let i = 0; i < 2; i++) {
-            let expensed = prompt('Введите обязательную статью расходов?', 'бензин');
-            let amount1 = +prompt('Во сколько это обойдется?', 400);
+            let expensed;
+            do {
+                expensed = prompt('Введите обязательную статью расходов?', 'бензин');
+            } while (isNumber(expensed));
+            let amount1;
+            do {
+                amount1 = +prompt('Во сколько это обойдется?', 400);
+            } while (!isNumber(amount1));
             appData.expenses[expensed] = amount1;
         }
 
